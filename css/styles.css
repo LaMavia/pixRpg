@@ -5,6 +5,7 @@
   --link: url("../assets/img/block-grass-1.png");
   --x: 0;
   --y: 0;
+  --s: 0;
 }
 
 * {
@@ -86,6 +87,7 @@ body {
   --w: 100vw;
   --h: 100vw;
   --gridCount: 20;
+  --y: 0;
   background-color: #2c2c2c;
   z-index: -1;
   min-width: 100vw;
@@ -93,6 +95,8 @@ body {
   overflow: hidden;
   display: grid;
   grid-template: repeat(calc(var(--gridCount) * 200), calc(var(--w) / var(--gridCount)))/repeat(calc(var(--gridCount)), calc(var(--w) / var(--gridCount)));
+  transform: translateY(calc(var(--y)* -1% / 250));
+  transition: transform 0.3s 0s;
 }
 
 .main .block, .main .block-grass, .main .block-grass2, .main .block-grass3, .main .block-sand, .main .block-tree {
@@ -122,6 +126,7 @@ body {
 }
 
 .player {
+  --s: calc(var(--w) / var(--gridCount));
   position: absolute;
   top: 0;
   left: 0;
@@ -131,9 +136,9 @@ body {
   background: no-repeat center center;
   background-image: url("../assets/img/mainChar1.png");
   background-size: contain;
-  width: calc(var(--w) / var(--gridCount));
-  height: calc(var(--w) / var(--gridCount));
-  transition: transform 0.2s 0s;
+  width: var(--s);
+  height: var(--s);
+  transition: transform 0.2s 0s, background-image 0s 0s;
   transform: translate(calc(var(--x) * 1vw / 2), calc(var(--y) * 1vw / 2));
 }
 

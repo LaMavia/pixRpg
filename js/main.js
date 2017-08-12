@@ -5,27 +5,27 @@ const num = {
 }
 //Variables
 let W = window.innerWidth;
-let H = window.innerHeight;
+let H = window.innerWidth;
 const mainField = document.querySelector('main.main');
     const mainFieldstyle = mainField.style;
     let gridCount = mainFieldstyle.getPropertyValue('--gridCount');
 const blocks = [];
 console.log('Main here');
-let s = 40;
+let s = 5;
 //Functions
 function Block(type){
     this.type = type || 1;
     this.cls;
     if(this.type < 3){
         this.cls = 'grass';
-    }else if(this.type <= 7 && this.type >= 3){
+    }else if(this.type >= 3 && this.type <= 7 ){
         this.cls = 'grass2';
     }else if(this.type > 7 && this.type <= 10){
-        this.cls = 'sand';
-    }else if(this.type > 10 && this.type <= 12){
-        this.cls = 'tree'
-    }else{
         this.cls = 'grass3';
+    }else if(this.type > 10 && this.type <= 11){
+        this.cls = 'tree';
+    }else if(this.type > 11 && this.type <= 15){
+        this.cls = 'sand';
     }
 
     return this;
@@ -34,20 +34,35 @@ Block.prototype.draw = (cls) => {
     let el = document.createElement('div'); 
         el.classList.add(`block-${cls}`);
         mainField.appendChild(el);
+        el = null;
 }
 function render(){
+    let count = 0;
     for(i = 0;i < s * 50;i++){
         blocks.push(new Array());
         for(x = 0;x < s;x++){
             blocks[i].push(new Array());
-            let n = num.random(15,1);
+            count++;
+            let n;
+            n = num.random(15,1);
             blocks[i][x] = new Block(n);
             blocks[i][x].draw(blocks[i][x].cls);
+            
         }
     }
+    console.log(`Blocks: ${count}`);
 }
 //End of terrain rendering
 //Player
+async function cooldown(time){
+    let z = 0;
+    setTimeout(() => {
+        z++
+        if(z < 1){
+            return true;
+        }
+    }, 1000)
+}
 function Player(){
     this.x = 0;
     this.y = 0;
@@ -63,10 +78,11 @@ function Player(){
                 if(this.x < 0){
                     this.x = 0;
                 }
-                if(this.x > W - (W - this.x)){
-                    this.x = W - (W - this.x);
+                if(this.x > 190){
+                    this.x = 190;
                 }
             }
+        mainFieldstyle.setProperty('--y', this.y / 1.8);
         this.body.style.setProperty('--x', this.x);
         this.body.style.setProperty('--y', this.y);
 
@@ -93,9 +109,14 @@ const player = new Player();
 
 
 
-//Start menu
-const startBtn = document.querySelector('header.start > button.btn');
+//Start menu //Uncomment when relese
+/*const startBtn = document.querySelector('header.start > button.btn');
 startBtn.addEventListener('click', (e) => {
     document.querySelector('header.start').setAttribute('style', 'display: none;');
     render();
-}, true);
+}, true);*/
+
+
+//Dev
+document.querySelector('header.start').setAttribute('style', 'display: none;');
+    render();
