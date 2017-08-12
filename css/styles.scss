@@ -84,8 +84,8 @@ body{
     overflow: hidden;
     display: grid;
     grid-template: 
-        repeat(calc(var(--gridCount) * 2), calc(var(--w) / var(--gridCount))) / 
-        repeat(calc(var(--gridCount) * 2), calc(var(--w) / var(--gridCount)))
+        repeat(calc(var(--gridCount) * 200), calc(var(--w) / var(--gridCount))) / 
+        repeat(calc(var(--gridCount)), calc(var(--w) / var(--gridCount)))
     ;
     .block{
         display: block;
@@ -94,6 +94,14 @@ body{
         &-grass{
             @extend .block;
             background-image: url('../assets/img/block-grass-1.png');
+        }
+        &-grass2{
+            @extend .block;
+            background-image: url('../assets/img/block-grass-2.png');
+        }
+        &-grass3{
+            @extend .block;
+            background-image: url('../assets/img/block-grass-3.png');
         }
         &-sand{
             @extend .block;
@@ -106,7 +114,7 @@ body{
     }
 }
 .player{
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     z-index: 5000000;

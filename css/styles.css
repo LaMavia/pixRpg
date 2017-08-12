@@ -92,10 +92,10 @@ body {
   min-height: 100vw;
   overflow: hidden;
   display: grid;
-  grid-template: repeat(calc(var(--gridCount) * 2), calc(var(--w) / var(--gridCount)))/repeat(calc(var(--gridCount) * 2), calc(var(--w) / var(--gridCount)));
+  grid-template: repeat(calc(var(--gridCount) * 200), calc(var(--w) / var(--gridCount)))/repeat(calc(var(--gridCount)), calc(var(--w) / var(--gridCount)));
 }
 
-.main .block, .main .block-grass, .main .block-sand, .main .block-tree {
+.main .block, .main .block-grass, .main .block-grass2, .main .block-grass3, .main .block-sand, .main .block-tree {
   display: block;
   background: center center;
   background-size: contain;
@@ -103,6 +103,14 @@ body {
 
 .main .block-grass {
   background-image: url("../assets/img/block-grass-1.png");
+}
+
+.main .block-grass2 {
+  background-image: url("../assets/img/block-grass-2.png");
+}
+
+.main .block-grass3 {
+  background-image: url("../assets/img/block-grass-3.png");
 }
 
 .main .block-sand {
@@ -114,7 +122,7 @@ body {
 }
 
 .player {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   z-index: 5000000;

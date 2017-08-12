@@ -16,12 +16,16 @@ let s = 40;
 function Block(type){
     this.type = type || 1;
     this.cls;
-    if(this.type <= 7){
+    if(this.type < 3){
         this.cls = 'grass';
+    }else if(this.type <= 7 && this.type >= 3){
+        this.cls = 'grass2';
     }else if(this.type > 7 && this.type <= 10){
         this.cls = 'sand';
     }else if(this.type > 10 && this.type <= 12){
         this.cls = 'tree'
+    }else{
+        this.cls = 'grass3';
     }
 
     return this;
@@ -32,11 +36,11 @@ Block.prototype.draw = (cls) => {
         mainField.appendChild(el);
 }
 function render(){
-    for(i = 0;i < s;i++){
+    for(i = 0;i < s * 50;i++){
         blocks.push(new Array());
         for(x = 0;x < s;x++){
             blocks[i].push(new Array());
-            let n = num.random(12,1);
+            let n = num.random(15,1);
             blocks[i][x] = new Block(n);
             blocks[i][x].draw(blocks[i][x].cls);
         }
@@ -58,6 +62,9 @@ function Player(){
                 this.x += 10 * pn;
                 if(this.x < 0){
                     this.x = 0;
+                }
+                if(this.x > W - (W - this.x)){
+                    this.x = W - (W - this.x);
                 }
             }
         this.body.style.setProperty('--x', this.x);
