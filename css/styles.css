@@ -44,6 +44,11 @@ body {
   flex-flow: row nowrap;
 }
 
+.userInfo .info .stats .player__icon {
+  width: 20%;
+  height: 100%;
+}
+
 .userInfo .info .lvl {
   width: 100%;
   height: 20%;

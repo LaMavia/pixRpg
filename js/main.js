@@ -11,12 +11,7 @@ const mainField = document.querySelector('main.main');
     let gridCount = mainFieldstyle.getPropertyValue('--gridCount');
 const blocks = [];
 console.log('Main here');
-let s = 20 * 2;
-/*Block types
-1.Grass
-2.Water
-3.Sand
-*/
+let s = 40;
 //Functions
 function Block(type){
     this.type = type || 1;
@@ -79,11 +74,11 @@ const player = new Player();
     window.addEventListener('keydown', (e) => {
         switch(e.keyCode){
             //X
-            case 37: e.preventDefault(), player.walk(1, -1);break;//A, ArrowLeft
-            case 39: e.preventDefault(), player.walk(1, 1);break;//D, ArrowRight
+            case 37: e.preventDefault(), player.walk(1, -1);break;//!A, ArrowLeft
+            case 39: e.preventDefault(), player.walk(1, 1);break;//!D, ArrowRight
             //Y
-            case 38: e.preventDefault(), player.walk(2,-1);break;//W, ArrowUp
-            case 40: e.preventDefault(), player.walk(2,1);break;//S, ArrowDown
+            case 38: e.preventDefault(), player.walk(2,-1);break;//!W, ArrowUp
+            case 40: e.preventDefault(), player.walk(2,1);break;//!S, ArrowDown
 
         }
     }, true);
