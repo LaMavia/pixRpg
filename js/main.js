@@ -81,13 +81,13 @@ function Player(){
                 }
                 if(this.y < oldY){
                     console.log('Moving up');
-                    if(Math.floor(this.body.getBoundingClientRect().top / 100) * 100 / 1000 % 4 <= 0 && Math.floor(this.body.getBoundingClientRect().top / 100) * 100 != 0){
+                    if(Math.floor(this.body.getBoundingClientRect().top / 100) * 100 / 1000 % 4 < 0 && Math.floor(this.body.getBoundingClientRect().top / 100) * 100 != 0){
                     this.camY -= 100;
                     }
                 }
                 if(this.y > oldY){
                     console.log('Moving down');
-                    if(Math.floor(this.body.getBoundingClientRect().top / 100) * 100 / 1000 % 4 === 0 && Math.floor(this.body.getBoundingClientRect().top / 100) * 100 != 0){
+                    if(Math.floor(this.body.getBoundingClientRect().top / 100) * 100 / 1000 % 4 < 0.1 && Math.floor(this.body.getBoundingClientRect().top / 100) * 100 != 0){
                     this.camY += 100;
                     }
                 }
