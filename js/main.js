@@ -69,6 +69,7 @@ function Player(){
     this.x = 0;
     this.y = 0;
         this.oldY = 0;
+    this.neg = 0;
     this.body = document.querySelector('span.player');
     this.camY = 0;
     this.s = metr.vw(100) / 20;
@@ -83,12 +84,14 @@ function Player(){
                     console.log('Moving up');
                     if(Math.floor(this.body.getBoundingClientRect().top / 100) * 100 / 1000 % 4 < 0 && Math.floor(this.body.getBoundingClientRect().top / 100) * 100 != 0){
                     this.camY -= 100;
+                    this.neg--;
                     }
                 }
                 if(this.y > oldY){
                     console.log('Moving down');
-                    if(Math.floor(this.body.getBoundingClientRect().top / 100) * 100 / 1000 % 4 < 0.1 && Math.floor(this.body.getBoundingClientRect().top / 100) * 100 != 0){
-                    this.camY += 100;
+                    if(Math.floor(this.body.getBoundingClientRect().top / 100) * 100 / 1000 % 4 >= 2.5 && Math.floor(this.body.getBoundingClientRect().top / 100) * 100 != 0){
+                        this.camY += 100;
+                        this.neg++;
                     }
                 }
                 /*if(this.y >= 120 / 100 * metr.vw(3)){

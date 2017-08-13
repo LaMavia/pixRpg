@@ -14,14 +14,14 @@ let mainWindow
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    center: true, plugins: true, autoHideMenuBar: true, show: false, 
+    center: true, plugins: true, autoHideMenuBar: true, width: 1280, height: 720, /*show: false, */
     webPreferences: {
       experimentalFeatures: true,
     }
   }
   )
-  mainWindow.maximize()
-  mainWindow.show()
+  /*mainWindow.maximize()
+  mainWindow.show()*/
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, 'index.html'),
