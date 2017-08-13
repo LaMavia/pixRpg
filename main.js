@@ -14,7 +14,7 @@ let mainWindow
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    center: true, plugins: true, autoHideMenuBar: true, width: 1280, height: 720, /*show: false, */
+    center: true, plugins: true, autoHideMenuBar: true, width: 1280, height: 720, resizable: false, /*show: false, */
     webPreferences: {
       experimentalFeatures: true,
     }

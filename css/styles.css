@@ -99,7 +99,7 @@ body {
   transition: transform 0.3s 0s;
 }
 
-.main .block, .main .block-grass, .main .block-grass2, .main .block-grass3, .main .block-sand, .main .block-tree {
+.main .block, .main .block-grass, .main .block-grass2, .main .block-grass3, .main .block-sand, .main .block-tree, .main .block-stone {
   display: block;
   background: center center;
   background-size: contain;
@@ -123,6 +123,10 @@ body {
 
 .main .block-tree {
   background-image: url("../assets/img/block-tree-1.png");
+}
+
+.main .block-stone {
+  background-image: url("../assets/img/block-stone-1.png");
 }
 
 .player {

@@ -115,6 +115,10 @@ body{
             @extend .block;
             background-image: url('../assets/img/block-tree-1.png');
         }
+        &-stone{
+            @extend .block;
+            background-image: url('../assets/img/block-stone-1.png');
+        }
     }
 }
 .player{

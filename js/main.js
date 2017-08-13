@@ -21,8 +21,12 @@ const mainField = document.querySelector('main.main');
     const mainFieldstyle = mainField.style;
     let gridCount = mainFieldstyle.getPropertyValue('--gridCount');
 const blocks = [];
+const grassBlocks = [];
+const sandBlocks = [];
+const treeBlocks = [];
+const stoneBlocks = [];
 console.log('Main here');
-let s = 5;
+let s = 10;
 //Functions
 function Block(type){
     this.type = type || 1;
@@ -33,9 +37,11 @@ function Block(type){
         this.cls = 'grass2';
     }else if(this.type > 7 && this.type <= 10){
         this.cls = 'grass3';
-    }else if(this.type > 10 && this.type <= 11){
+    }else if(this.type > 10 && this.type <= 12){
         this.cls = 'tree';
-    }else if(this.type > 11 && this.type <= 15){
+    }else if(this.type > 12 && this.type <= 15){
+        this.cls = 'stone';
+    }else if(this.type > 15 && this.type <= 17){
         this.cls = 'sand';
     }
 
@@ -55,12 +61,42 @@ function render(){
             blocks[i].push(new Array());
             count++;
             let n;
-            n = num.random(15,1);
+            if(blocks[i - 5] != undefined && x > 1){
+                if(blocks[i - 1][x].type < 3){//grass1
+                    n = num.random(11,1);
+
+                }else if(blocks[i][x - 1].type > 7 && blocks[i][x - 1].type <= 10){//grass1 / 2 / 3
+                    n = num.random(11,2);
+
+                }else if(blocks[i][x - 1].type > 10 && blocks[i][x - 1].type <= 12){//tree
+                    n = num.random(12,10);
+
+                }else if(blocks[i][x - 1].type > 12 && blocks[i][x - 1].type <= 15){//stone
+                    n = num.random(17,11);
+
+                }else{
+                    n = num.random(17,1);
+                }
+            }
+            else{
+                n = num.random(17,1);
+            }
             blocks[i][x] = new Block(n);
             blocks[i][x].draw(blocks[i][x].cls);
-            
+            if(blocks[i][x].cls === 'grass' || blocks[i][x].cls === 'grass2' || blocks[i][x].cls === 'grass3'){
+                grassBlocks.push(blocks[i][x]);
+            }else if(blocks[i][x].cls === 'tree'){
+                treeBlocks.push(blocks[i][x]);
+            }else if(blocks[i][x].cls === 'stone'){
+                stoneBlocks.push(blocks[i][x]);
+            }else if(blocks[i][x].cls === 'sand'){
+                sandBlocks.push(blocks[i][x]);
+            }else{
+                console.log('Unknown Block Type')
+            }
         }
     }
+    //console.log(blockBox);
     console.log(`Blocks: ${count}`);
 }
 //End of terrain rendering
@@ -94,14 +130,13 @@ function Player(){
                         this.neg++;
                     }
                 }
-                /*if(this.y >= 120 / 100 * metr.vw(3)){
-                    this.camY = 100;
-                }else if(this.y < 120 / 100 * metr.vw(3)){
+                if(this.camY < 0){
                     this.camY = 0;
-                }*/
-                console.log(`${Math.floor(this.body.getBoundingClientRect().top / 100) * 100 / 1000 % 4}`);
+                }
+                /*console.log(`${Math.floor(this.body.getBoundingClientRect().top / 100) * 100 / 1000 % 4}`);
                 console.log(window.getComputedStyle(player.body, null).getPropertyValue('transform'));
                 console.log(`Y: ${this.y}, Y2: ${this.y * metr.vw(1)}, H: ${H}, W: ${W}, Ct: ${this.body.clientTop}`);
+                */
             }else if(dir === 1){//X
                 this.x += 10 * pn;
                 if(this.x < 0){
@@ -119,6 +154,12 @@ function Player(){
     }
     requestAnimationFrame(this.walk);
 
+    this.mine = () => {
+        let left = this.body.getBoundingClientRect().left;
+        let top = this.body.getBoundingClientRect().top;
+        console.log(`Left: ${left} Top: ${top}`);
+    }
+
     return this;
 }
 const player = new Player();
@@ -131,7 +172,9 @@ const player = new Player();
             //Y
             case 38: e.preventDefault(), player.walk(2,-1);break;//!W, ArrowUp
             case 40: e.preventDefault(), player.walk(2,1);break;//!S, ArrowDown
-
+            //End of movement
+            //Mining
+            case 81: e.preventDefault(), player.mine();break;
         }
     }, true);
 
@@ -160,4 +203,4 @@ function foo(){
     }
     return Math.floor(f);
 }
-console.log(foo());
+//console.log(foo());
