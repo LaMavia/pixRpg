@@ -95,7 +95,7 @@ body {
   overflow: hidden;
   display: grid;
   grid-template: repeat(calc(var(--gridCount) * 200), calc(var(--w) / var(--gridCount)))/repeat(calc(var(--gridCount)), calc(var(--w) / var(--gridCount)));
-  transform: translateY(calc(var(--y)* -1% / 250));
+  transform: translateY(calc(var(--y) * -1vw));
   transition: transform 0.3s 0s;
 }
 
@@ -150,6 +150,3 @@ body {
     background-image: url("../assets/img/mainChar2.png");
   }
 }
- 
-
- /*# sourceMappingURL= styles.css.map */

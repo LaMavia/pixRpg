@@ -2,10 +2,21 @@ const num = {
     random: (max, min = 0) => {
         return Math.floor(Math.random() * (max - min) + min);
     }
+};
+const metr = {
+    vw: (quan) => {
+        return quan * (document.body.clientWidth / 100);
+    },
+    vh: (quan) => {
+        return quan * (document.body.clientHeight / 100);
+    }
 }
 //Variables
 let W = window.innerWidth;
 let H = window.innerWidth;
+window.addEventListener('resize',(e)=>{W = window.innerWidth;H = window.innerHeight;console.log('Updated vw vh')});
+
+
 const mainField = document.querySelector('main.main');
     const mainFieldstyle = mainField.style;
     let gridCount = mainFieldstyle.getPropertyValue('--gridCount');
@@ -54,25 +65,40 @@ function render(){
 }
 //End of terrain rendering
 //Player
-async function cooldown(time){
-    let z = 0;
-    setTimeout(() => {
-        z++
-        if(z < 1){
-            return true;
-        }
-    }, 1000)
-}
 function Player(){
     this.x = 0;
     this.y = 0;
+        this.oldY = 0;
     this.body = document.querySelector('span.player');
+    this.camY = 0;
+    this.s = metr.vw(100) / 20;
     this.walk = (dir, pn) => {
+        oldY = this.y || 0;
             if(dir === 2){//Y
                 this.y += 10 * pn;
                 if(this.y < 0){
                     this.y = 0;
                 }
+                if(this.y < oldY){
+                    console.log('Moving up');
+                    if(Math.floor(this.body.getBoundingClientRect().top / 100) * 100 / 1000 % 4 <= 0 && Math.floor(this.body.getBoundingClientRect().top / 100) * 100 != 0){
+                    this.camY -= 100;
+                    }
+                }
+                if(this.y > oldY){
+                    console.log('Moving down');
+                    if(Math.floor(this.body.getBoundingClientRect().top / 100) * 100 / 1000 % 4 === 0 && Math.floor(this.body.getBoundingClientRect().top / 100) * 100 != 0){
+                    this.camY += 100;
+                    }
+                }
+                /*if(this.y >= 120 / 100 * metr.vw(3)){
+                    this.camY = 100;
+                }else if(this.y < 120 / 100 * metr.vw(3)){
+                    this.camY = 0;
+                }*/
+                console.log(`${Math.floor(this.body.getBoundingClientRect().top / 100) * 100 / 1000 % 4}`);
+                console.log(window.getComputedStyle(player.body, null).getPropertyValue('transform'));
+                console.log(`Y: ${this.y}, Y2: ${this.y * metr.vw(1)}, H: ${H}, W: ${W}, Ct: ${this.body.clientTop}`);
             }else if(dir === 1){//X
                 this.x += 10 * pn;
                 if(this.x < 0){
@@ -82,7 +108,7 @@ function Player(){
                     this.x = 190;
                 }
             }
-        mainFieldstyle.setProperty('--y', this.y / 1.8);
+        mainFieldstyle.setProperty('--y', this.camY);
         this.body.style.setProperty('--x', this.x);
         this.body.style.setProperty('--y', this.y);
 
@@ -120,3 +146,15 @@ startBtn.addEventListener('click', (e) => {
 //Dev
 document.querySelector('header.start').setAttribute('style', 'display: none;');
     render();
+
+function foo(){
+    let f = 0;
+    let t = 0;
+    while(f <= metr.vh(1)){
+        f += metr.vw(100) / 20;
+        console.log(f, metr.vh(1), t);
+        t++;
+    }
+    return Math.floor(f);
+}
+console.log(foo());
