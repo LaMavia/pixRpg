@@ -25,12 +25,14 @@ const grassBlocks = [];
 const sandBlocks = [];
 const treeBlocks = [];
 const stoneBlocks = [];
+let visiableBlocks = [];
 console.log('Main here');
-let s = 10;
+let s = 4;
 //Functions
 function Block(type){
     this.type = type || 1;
     this.cls;
+    this.body;
     if(this.type < 3){
         this.cls = 'grass';
     }else if(this.type >= 3 && this.type <= 7 ){
@@ -47,11 +49,28 @@ function Block(type){
 
     return this;
 }
+let th;
 Block.prototype.draw = (cls) => {
     let el = document.createElement('div'); 
         el.classList.add(`block-${cls}`);
         mainField.appendChild(el);
+        /*this.oX = el.offsetLeft;
+        this.x = el.getBoundingClientRect().left;
+        this.oY = el.offsetTop;
+        this.y = el.getBoundingClientRect().top;*/
+        th = el;
         el = null;
+}
+Block.prototype.setPos = (el) => {
+    let tf = false;
+    while(el.body && tf === false){
+        el.oX = el.body.offsetLeft;
+        el.x = el.body.getBoundingClientRect().left;
+        el.oY = el.body.offsetTop;
+        el.y = el.body.getBoundingClientRect().top;
+        tf = true;
+    }
+    tf = null;
 }
 function render(){
     let count = 0;
@@ -83,6 +102,9 @@ function render(){
             }
             blocks[i][x] = new Block(n);
             blocks[i][x].draw(blocks[i][x].cls);
+            blocks[i][x].body = th;
+            blocks[i][x].setPos(blocks[i][x]);
+            //Grouping blocks => easier to find when mining
             if(blocks[i][x].cls === 'grass' || blocks[i][x].cls === 'grass2' || blocks[i][x].cls === 'grass3'){
                 grassBlocks.push(blocks[i][x]);
             }else if(blocks[i][x].cls === 'tree'){
@@ -101,6 +123,7 @@ function render(){
 }
 //End of terrain rendering
 //Player
+
 function Player(){
     this.x = 0;
     this.y = 0;
@@ -109,6 +132,21 @@ function Player(){
     this.body = document.querySelector('span.player');
     this.camY = 0;
     this.s = metr.vw(100) / 20;
+    this.updateView = () => {
+        visiableBlocks = [];
+        for(i = 0; i < blocks.length;i++){
+            for(x = 0; x < blocks[i].length; x++){
+                let camPos;
+                if(this.camY > 0){camPos = this.camY;}
+                else{camPos = 100;}
+                if(blocks[i][x].y < 2800 * (camPos / 100)){
+                    visiableBlocks.push(blocks[i][x]);
+                }
+                console.log(blocks[i][x].body);
+            }
+        }
+        console.log(visiableBlocks);
+    }
     this.walk = (dir, pn) => {
         oldY = this.y || 0;
             if(dir === 2){//Y
@@ -121,6 +159,7 @@ function Player(){
                     if(Math.floor(this.body.getBoundingClientRect().top / 100) * 100 / 1000 % 4 < 0 && Math.floor(this.body.getBoundingClientRect().top / 100) * 100 != 0){
                     this.camY -= 100;
                     this.neg--;
+                    this.updateView();
                     }
                 }
                 if(this.y > oldY){
@@ -128,15 +167,12 @@ function Player(){
                     if(Math.floor(this.body.getBoundingClientRect().top / 100) * 100 / 1000 % 4 >= 2.5 && Math.floor(this.body.getBoundingClientRect().top / 100) * 100 != 0){
                         this.camY += 100;
                         this.neg++;
+                        this.updateView();
                     }
                 }
                 if(this.camY < 0){
                     this.camY = 0;
                 }
-                /*console.log(`${Math.floor(this.body.getBoundingClientRect().top / 100) * 100 / 1000 % 4}`);
-                console.log(window.getComputedStyle(player.body, null).getPropertyValue('transform'));
-                console.log(`Y: ${this.y}, Y2: ${this.y * metr.vw(1)}, H: ${H}, W: ${W}, Ct: ${this.body.clientTop}`);
-                */
             }else if(dir === 1){//X
                 this.x += 10 * pn;
                 if(this.x < 0){
@@ -158,11 +194,18 @@ function Player(){
         let left = this.body.getBoundingClientRect().left;
         let top = this.body.getBoundingClientRect().top;
         console.log(`Left: ${left} Top: ${top}`);
+        this.updateView();
+        for(block in visiableBlocks){
+            /*if(top / block.y < 2 && left /  block.x < 2){
+                console.log(block.cls);
+            }*/
+        }
     }
 
     return this;
 }
 const player = new Player();
+player.updateView();
     //Walking
     window.addEventListener('keydown', (e) => {
         switch(e.keyCode){
